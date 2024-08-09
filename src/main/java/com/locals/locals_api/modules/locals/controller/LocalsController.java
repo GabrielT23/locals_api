@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/locals")
 public class LocalsController {
     
     @PostMapping()
-    public void post( @RequestBody LocalsEntity localsEntity ) {
+    public void post(@Valid @RequestBody LocalsEntity localsEntity ) {
         System.out.println(localsEntity.getCity());
     }
 }
