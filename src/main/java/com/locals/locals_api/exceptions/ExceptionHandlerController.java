@@ -30,4 +30,12 @@ public class ExceptionHandlerController {
 
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorMessageDTO> handleRuntimeException(RuntimeException e) {
+
+        ErrorMessageDTO errorMessage = new ErrorMessageDTO(e.getMessage(), "not found");
+
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 }
