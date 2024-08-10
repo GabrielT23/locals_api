@@ -1,14 +1,26 @@
 package com.locals.locals_api.modules.locals.entities;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
+@Entity(name="locals")
 public class LocalsEntity {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.UUID)
     private UUID id;
     
     @NotNull(message = "Name is not null")
@@ -28,8 +40,10 @@ public class LocalsEntity {
     @NotBlank(message = "State is mandatory")
     private String state;
     
-    private String createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
     
-    private String updatedAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
 
