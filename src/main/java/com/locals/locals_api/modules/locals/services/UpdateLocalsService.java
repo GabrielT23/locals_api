@@ -1,14 +1,17 @@
 package com.locals.locals_api.modules.locals.services;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.locals.locals_api.modules.locals.dtos.UpdateLocalsDTO;
 import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 import com.locals.locals_api.modules.locals.repositories.LocalsRepository;
+import com.locals.locals_api.utils.ImageUploadUtil;
 
 @Service
 public class UpdateLocalsService {
@@ -17,7 +20,7 @@ public class UpdateLocalsService {
     private LocalsRepository localsRepository;
 
     public LocalsEntity execute(UUID id, UpdateLocalsDTO updateLocalsDTO) {
-        // Verifica se a entidade com o ID especificado existe
+
         Optional<LocalsEntity> optionalLocalsEntity = localsRepository.findById(id);
 
         if (!optionalLocalsEntity.isPresent()) {
@@ -26,7 +29,6 @@ public class UpdateLocalsService {
 
         LocalsEntity existingLocalsEntity = optionalLocalsEntity.get();
 
-        // Atualiza os campos da entidade existente com os novos valores, apenas se eles estiverem presentes
         if (updateLocalsDTO.getName() != null) {
             existingLocalsEntity.setName(updateLocalsDTO.getName());
         }
@@ -40,7 +42,44 @@ public class UpdateLocalsService {
             existingLocalsEntity.setState(updateLocalsDTO.getState());
         }
 
-        // Salva a entidade atualizada no banco de dados
+        return localsRepository.save(existingLocalsEntity);
+    }
+
+    public LocalsEntity execute(UUID id, UpdateLocalsDTO updateLocalsDTO, MultipartFile imageFile) throws IOException {
+
+        Optional<LocalsEntity> optionalLocalsEntity = localsRepository.findById(id);
+    
+        if (!optionalLocalsEntity.isPresent()) {
+            throw new RuntimeException("LocalsEntity with ID " + id + " does not exist.");
+        }
+    
+        LocalsEntity existingLocalsEntity = optionalLocalsEntity.get();
+
+        if (updateLocalsDTO.getName() != null) {
+            existingLocalsEntity.setName(updateLocalsDTO.getName());
+        }
+        if (updateLocalsDTO.getNeighborhood() != null) {
+            existingLocalsEntity.setNeighborhood(updateLocalsDTO.getNeighborhood());
+        }
+        if (updateLocalsDTO.getCity() != null) {
+            existingLocalsEntity.setCity(updateLocalsDTO.getCity());
+        }
+        if (updateLocalsDTO.getState() != null) {
+            existingLocalsEntity.setState(updateLocalsDTO.getState());
+        }
+    
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Verifica se a entidade já tem uma imagem associada
+            if (existingLocalsEntity.getImageName() != null) {
+                // Deleta a imagem anterior
+                ImageUploadUtil.deleteImage(existingLocalsEntity.getImageName());
+            }
+    
+            // Salvando a nova imagem
+            String imageName = ImageUploadUtil.saveImage(imageFile);
+            existingLocalsEntity.setImageName(imageName);
+        }
+
         return localsRepository.save(existingLocalsEntity);
     }
 }

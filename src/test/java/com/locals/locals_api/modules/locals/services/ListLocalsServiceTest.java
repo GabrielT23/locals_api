@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
+import com.locals.locals_api.modules.locals.dtos.ResponseLocalsDTO;
 import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 import com.locals.locals_api.modules.locals.repositories.LocalsRepository;
 
@@ -44,7 +45,7 @@ public class ListLocalsServiceTest {
         when(localsRepository.findAllByOrderByCreatedAtAsc()).thenReturn(expectedEntities);
 
         // Executa o método a ser testado
-        List<LocalsEntity> actualEntities = listLocalsService.execute();
+        List<ResponseLocalsDTO> actualEntities = listLocalsService.execute();
 
         // Verifica o resultado
         assertNotNull(actualEntities);

@@ -1,5 +1,6 @@
 package com.locals.locals_api.modules.locals.services;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
+import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 import com.locals.locals_api.modules.locals.repositories.LocalsRepository;
 
 public class DeleteLocalsServiceTest {
@@ -27,6 +29,7 @@ public class DeleteLocalsServiceTest {
 
     private UUID existingId;
     private UUID nonExistingId;
+    private LocalsEntity existingLocalsEntity;
 
     @BeforeEach
     void setUp() {
@@ -34,19 +37,23 @@ public class DeleteLocalsServiceTest {
         
         existingId = UUID.randomUUID();
         nonExistingId = UUID.randomUUID();
+        existingLocalsEntity = new LocalsEntity();
+        existingLocalsEntity.setId(existingId);
+        existingLocalsEntity.setImageName(null); // Ou configure um nome de imagem, se necessário
 
         // Configura o mock para simular comportamento esperado
         when(localsRepository.existsById(existingId)).thenReturn(true);
         when(localsRepository.existsById(nonExistingId)).thenReturn(false);
+        when(localsRepository.findById(existingId)).thenReturn(Optional.of(existingLocalsEntity));
+        when(localsRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+        
         doNothing().when(localsRepository).deleteById(existingId);
     }
 
     @Test
     void testExecuteWithExistingId() {
-        // Testa o método com uma entidade existente
+        // Testando o método com uma entidade existente
         deleteLocalsService.execute(existingId);
-
-        // Verificando se o método deleteById foi chamado exatamente uma vez com o ID correto
         verify(localsRepository, times(1)).deleteById(existingId);
     }
 
@@ -67,6 +74,7 @@ public class DeleteLocalsServiceTest {
         verify(localsRepository, never()).deleteById(nonExistingId);
     }
 }
+
 
 
 

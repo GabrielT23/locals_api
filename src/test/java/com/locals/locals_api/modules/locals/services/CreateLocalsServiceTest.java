@@ -1,5 +1,6 @@
 package com.locals.locals_api.modules.locals.services;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +29,7 @@ class CreateLocalsServiceTest {
     }
 
     @Test
-    void testExecute() {
+    void testExecute() throws IOException {
         UUID id = UUID.randomUUID();
         LocalsEntity localsEntity = new LocalsEntity();
         localsEntity.setId(id);
