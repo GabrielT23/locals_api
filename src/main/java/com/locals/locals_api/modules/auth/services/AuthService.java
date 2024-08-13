@@ -1,5 +1,8 @@
 package com.locals.locals_api.modules.auth.services;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +13,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.locals.locals_api.modules.auth.dtos.AuthDTO;
 import com.locals.locals_api.modules.auth.dtos.ResponseAuthDTO;
 import com.locals.locals_api.modules.users.repositories.UsersRepository;
+
 
 @Service
 public class AuthService {
@@ -36,6 +40,7 @@ public class AuthService {
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var token = JWT.create()
+                    .withExpiresAt(Instant.now().plus(Duration.ofDays(1)))
                     .withIssuer("locals")
                     .withSubject(user.getId().toString())
                     .sign(algorithm);
