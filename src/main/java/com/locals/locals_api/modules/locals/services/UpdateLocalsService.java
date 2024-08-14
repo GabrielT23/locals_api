@@ -29,6 +29,10 @@ public class UpdateLocalsService {
 
         LocalsEntity existingLocalsEntity = optionalLocalsEntity.get();
 
+        if(!(existingLocalsEntity.getUser().getId().equals(updateLocalsDTO.getUserId()))){
+            throw new RuntimeException("user not unauthorized");
+        }
+
         if (updateLocalsDTO.getName() != null) {
             existingLocalsEntity.setName(updateLocalsDTO.getName());
         }
@@ -42,7 +46,9 @@ public class UpdateLocalsService {
             existingLocalsEntity.setState(updateLocalsDTO.getState());
         }
 
-        return localsRepository.save(existingLocalsEntity);
+        localsRepository.save(existingLocalsEntity);
+
+        return existingLocalsEntity;
     }
 
     public LocalsEntity execute(UUID id, UpdateLocalsDTO updateLocalsDTO, MultipartFile imageFile) throws IOException {
@@ -55,6 +61,9 @@ public class UpdateLocalsService {
     
         LocalsEntity existingLocalsEntity = optionalLocalsEntity.get();
 
+        if(!(existingLocalsEntity.getUser().getId().equals(updateLocalsDTO.getUserId()))){
+            throw new RuntimeException("user not unauthorized");
+        }
         if (updateLocalsDTO.getName() != null) {
             existingLocalsEntity.setName(updateLocalsDTO.getName());
         }
@@ -80,7 +89,9 @@ public class UpdateLocalsService {
             existingLocalsEntity.setImageName(imageName);
         }
 
-        return localsRepository.save(existingLocalsEntity);
+        localsRepository.save(existingLocalsEntity);
+        
+        return existingLocalsEntity;
     }
 }
 

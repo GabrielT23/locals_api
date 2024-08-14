@@ -16,18 +16,15 @@ public class CreateLocalsService {
     private LocalsRepository localsRepository;
 
     public LocalsEntity execute(LocalsEntity localsEntity, MultipartFile imageFile) throws IOException {
-        // Save the image and set the imageName in the entity
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageName = ImageUploadUtil.saveImage(imageFile);
             localsEntity.setImageName(imageName);
         }
-
-        // Save the entity in the database
         return localsRepository.save(localsEntity);
     }
 
     public LocalsEntity execute(LocalsEntity localsEntity) throws IOException {
-        // Apenas salva a entidade sem a imagem
+        System.out.println(localsEntity);
         return localsRepository.save(localsEntity);
     }
 }

@@ -21,10 +21,14 @@ import com.locals.locals_api.modules.users.services.DeleteUserService;
 import com.locals.locals_api.modules.users.services.ShowUserService;
 import com.locals.locals_api.modules.users.services.UpdateUserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Users", description = "Essas são todas as rotas de usuário")
 public class UsersController {
 
     @Autowired
@@ -40,26 +44,31 @@ public class UsersController {
     private UpdateUserService updateUserService;
 
     @PostMapping
-    public ResponseEntity<UsersEntity> create(@Valid @RequestBody UsersEntity usersEntity) {
-
+    @Operation(summary = "Criação de usuário", description = "Essa rota permite que criar um usuário")
+    public ResponseEntity<UsersEntity> create(
+            @Valid @RequestBody UsersEntity usersEntity) {
         UsersEntity createdUser = createUserService.execute(usersEntity);
-
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
-
+    
+    @SecurityRequirement(name="jwt_auth")
     @GetMapping("/{id}")
+    @Operation(summary = "Busca de usuário", description = "Essa rota permite ao usuário autenticado buscar um usuário pelo id")
     public ResponseEntity<UsersEntity> getUserById(@PathVariable UUID id) {
         UsersEntity user = showUserService.execute(id);
         return ResponseEntity.ok(user);
     }
-
+    @SecurityRequirement(name="jwt_auth")
     @DeleteMapping("/{id}")
+    @Operation(summary = "Exclusão de usuário", description = "Essa rota permite ao usuário autenticado deletar seu registro")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         deleteUserService.execute(id);
         return ResponseEntity.noContent().build();
     }
 
+    @SecurityRequirement(name="jwt_auth")
     @PutMapping("/{id}")
+    @Operation(summary = "Atualização de usuário", description = "Essa rota permite ao usuário autenticado atualizar seu registro")
     public ResponseEntity<UsersEntity> updateUser(@PathVariable UUID id, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
         UsersEntity updatedUser = updateUserService.execute(id, updateUserDTO);
         return ResponseEntity.ok(updatedUser);

@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 import com.locals.locals_api.modules.locals.repositories.LocalsRepository;
+import com.locals.locals_api.modules.users.entities.UsersEntity;
 
 public class DeleteLocalsServiceTest {
 
@@ -30,6 +31,7 @@ public class DeleteLocalsServiceTest {
     private UUID existingId;
     private UUID nonExistingId;
     private LocalsEntity existingLocalsEntity;
+    private UUID userId;
 
     @BeforeEach
     void setUp() {
@@ -40,6 +42,10 @@ public class DeleteLocalsServiceTest {
         existingLocalsEntity = new LocalsEntity();
         existingLocalsEntity.setId(existingId);
         existingLocalsEntity.setImageName(null); // Ou configure um nome de imagem, se necessário
+        userId = UUID.randomUUID();
+        UsersEntity existingUser = new UsersEntity();
+        existingUser.setId(userId);
+        existingLocalsEntity.setUser(existingUser);
 
         // Configura o mock para simular comportamento esperado
         when(localsRepository.existsById(existingId)).thenReturn(true);
@@ -53,7 +59,7 @@ public class DeleteLocalsServiceTest {
     @Test
     void testExecuteWithExistingId() {
         // Testando o método com uma entidade existente
-        deleteLocalsService.execute(existingId);
+        deleteLocalsService.execute(existingId, userId);
         verify(localsRepository, times(1)).deleteById(existingId);
     }
 
@@ -61,7 +67,7 @@ public class DeleteLocalsServiceTest {
     void testExecuteWithNonExistingId() {
         // Verificando se uma exceção é lançada quando a entidade não existe
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            deleteLocalsService.execute(nonExistingId);
+            deleteLocalsService.execute(nonExistingId, userId);
         });
 
         String expectedMessage = "LocalsEntity with ID " + nonExistingId + " does not exist.";

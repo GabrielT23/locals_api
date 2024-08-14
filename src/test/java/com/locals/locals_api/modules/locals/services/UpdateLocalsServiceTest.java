@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.locals.locals_api.modules.locals.dtos.UpdateLocalsDTO;
 import com.locals.locals_api.modules.locals.entities.LocalsEntity;
 import com.locals.locals_api.modules.locals.repositories.LocalsRepository;
+import com.locals.locals_api.modules.users.entities.UsersEntity;
 
 @SpringBootTest
 public class UpdateLocalsServiceTest {
@@ -49,12 +50,18 @@ public class UpdateLocalsServiceTest {
         existingLocalsEntity.setCreatedAt(LocalDateTime.now());
         existingLocalsEntity.setUpdatedAt(LocalDateTime.now());
 
+        UUID userId = UUID.randomUUID();
+        UsersEntity existingUser = new UsersEntity();
+        existingUser.setId(userId);
+        existingLocalsEntity.setUser(existingUser);
         when(localsRepository.findById(id)).thenReturn(Optional.of(existingLocalsEntity));
         when(localsRepository.save(any(LocalsEntity.class))).thenReturn(existingLocalsEntity);
+        
 
         UpdateLocalsDTO updateLocalsDTO = new UpdateLocalsDTO();
         updateLocalsDTO.setName("New Name");
         updateLocalsDTO.setNeighborhood("New Neighborhood");
+        updateLocalsDTO.setUserId(userId);
 
         LocalsEntity updatedLocalsEntity = updateLocalsService.execute(id, updateLocalsDTO);
 
