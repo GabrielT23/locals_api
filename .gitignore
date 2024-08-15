@@ -34,3 +34,7 @@ build/
 
 ### uploads ###
 .uploads/*
+.uploads/
+
+### env
+.env
