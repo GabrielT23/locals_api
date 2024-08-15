@@ -31,7 +31,6 @@ Uma API Spring Boot para cadastrar e gerenciar locais.
 
     ```bash
     git clone https://github.com/GabrielT23/locals_api.git
-    cd locals-api
     ```
 
    ```bash
