@@ -38,7 +38,8 @@ public class AuthService {
         if(!passwordMatches){
             throw new RuntimeException("Email or password invalid");
         }
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        
+        Algorithm algorithm = (secretKey != null && !secretKey.isEmpty()) ? Algorithm.HMAC256(secretKey) : Algorithm.HMAC256("locals-secret");
         var token = JWT.create()
                     .withExpiresAt(Instant.now().plus(Duration.ofDays(1)))
                     .withIssuer("locals")
