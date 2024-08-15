@@ -1,6 +1,7 @@
 # Locals API
 
-Uma API Spring Boot para cadastrar e gerenciar locais.
+Uma API Spring Boot para cadastrar e gerenciar locais. A aplicação também possui cadastro e autenticação de 
+usuário, além de permitir o envio de arquivos e contar com a presença de testes unitários.
 
 ## Funcionalidades
 
