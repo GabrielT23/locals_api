@@ -69,9 +69,9 @@ public class UsersController {
     @SecurityRequirement(name="jwt_auth")
     @PutMapping("/{id}")
     @Operation(summary = "Atualização de usuário", description = "Essa rota permite ao usuário autenticado atualizar seu registro")
-    public ResponseEntity<UsersEntity> updateUser(@PathVariable UUID id, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
+    public ResponseEntity<UpdateUserDTO> updateUser(@PathVariable UUID id, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
         UsersEntity updatedUser = updateUserService.execute(id, updateUserDTO);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(updateUserDTO);
     }
 }
 
