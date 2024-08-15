@@ -90,8 +90,22 @@ Para rodar os testes unitários:
 mvn test
 ```
 
+
+### Deploy
+
+Foi feito o deploy da aplicação na plataforma Render. abaixo está a URL da aplicação em produção.
+
+```bash
+https://locals-api-rzv0.onrender.com
+```
+- Imagem de requisição da api de produção.
+
+![image](https://github.com/user-attachments/assets/b82d2fc0-205c-4cf6-9770-7632d8729d64)
+
 ### Documentação da Aplicação
 Para acessar a documentação da Api com todas as rotas, explicação e corpo de requisição, inicie a aplicação
 e acesse o endpoint:
 
+```bash
 /swagger-ui/index.html#/
+```
