@@ -1,15 +1,13 @@
 # Locals API
 
-Uma API Spring Boot para gerenciar e notificar usuários sobre locais afetados por desastres naturais.
+Uma API Spring Boot para cadastrar e gerenciar locais.
 
 ## Funcionalidades
 
 - **Gestão de Usuários**: Crie, autentique e gerencie usuários com autenticação JWT.
-- **Gestão de Locais**: Publique, atualize e recupere informações sobre locais afetados por desastres naturais.
+- **Gestão de Locais**: Publique, atualize e recupere informações sobre locais.
 - **Upload de Imagens**: Faça upload de imagens relacionadas aos locais e armazene-as no servidor.
-- **Notificações Baseadas em Localização**: Notifique usuários sobre desastres próximos com base em sua localização.
-- **Evacuação Baseada em Altitude**: Encontre a cidade de maior altitude dentro de um raio de 50 km para evacuação segura durante inundações.
-
+- **Implementação de testes**: Implementação de testes unitários para garantir o funcionamento da aplicação.
 ## Tecnologias Utilizadas
 
 - **Spring Boot**
@@ -32,15 +30,19 @@ Uma API Spring Boot para gerenciar e notificar usuários sobre locais afetados p
 1. **Clone o repositório**:
 
     ```bash
-    git clone https://github.com/seuusuario/locals-api.git
+    git clone https://github.com/GabrielT23/locals_api.git
     cd locals-api
     ```
 
 2. **Configure o banco de dados**:
    
    Certifique-se de ter um banco de dados PostgreSQL em execução e crie um banco de dados chamado `locals`.
-
-3. **Configure as variáveis de ambiente**:
+   Para facilitar a instalação do banco utilize o docker-compose da própria aplicação para configurar o banco de dados.
+   ```bash
+    docker-compose up -d
+    ```
+   obs: Certifique-se de ter o docker instalado na sua maquina de preferência na versão mais atual.
+4. **Configure as variáveis de ambiente**:
 
    Crie um arquivo `.env` no diretório raiz e adicione a configuração do seu banco de dados:
 
@@ -50,13 +52,13 @@ Uma API Spring Boot para gerenciar e notificar usuários sobre locais afetados p
     DATABASE_PASSWORD=docker
     ```
 
-4. **Construa o projeto**:
+5. **Construa o projeto**:
 
     ```bash
     mvn clean install
     ```
 
-5. **Execute a aplicação**:
+6. **Execute a aplicação**:
 
     ```bash
     mvn spring-boot:run
@@ -64,14 +66,18 @@ Uma API Spring Boot para gerenciar e notificar usuários sobre locais afetados p
 
 ### Endpoints da API
 
-| Método | Endpoint             | Descrição                                         | Autenticação   |
-|--------|----------------------|---------------------------------------------------|----------------|
-| GET    | `/locals`             | Recupera todos os locais                         | Nenhuma        |
-| POST   | `/locals`             | Cria um novo local                                | JWT Requerido  |
-| PUT    | `/locals/{id}`        | Atualiza um local existente                       | JWT Requerido  |
-| GET    | `/locals/{id}`        | Recupera um local específico por ID               | Nenhuma        |
-| POST   | `/auth/login`         | Autentica um usuário e retorna um JWT             | Nenhuma        |
-| POST   | `/auth/register`      | Registra um novo usuário                          | Nenhuma        |
+| Método | Endpoint                   | Descrição                                         | Autenticação   |
+|--------|----------------------      |---------------------------------------------------|--------------- |
+| GET    | `/locals`                  | Recupera todos os locais                          | Nenhuma        |
+| POST   | `/locals`                  | Cria um novo local                                | JWT Requerido  |
+| PUT    | `/locals/{id}`             | Atualiza um local existente                       | JWT Requerido  |
+| DELETE | `/locals/{id}`             | Deleta um local específico por ID                 | JWT Requerido  |
+| POST   | `/auth`                    | Autentica um usuário e retorna um JWT             | Nenhuma        |
+| POST   | `/users`                   | Registra um novo usuário                          | Nenhuma        |
+| GET    | `/users/{id}`              | Recupera um usuário pelo ID                       | JWT Requerido  |
+| PUT    | `/users/{id}`              | Atualiza um usuário pelo ID                       | JWT Requerido  |
+| DELETE | `/users/{id}`              | Deleta um usuário pelo ID                         | JWT Requerido  |
+| GET    | `swagger-ui/index.html#/`  | Documentação da API Swagger                       | JWT Requerido  |
 
 ### Executando Testes
 
@@ -79,3 +85,10 @@ Para rodar os testes unitários:
 
 ```bash
 mvn test
+```
+
+### Documentação da Aplicação
+Para acessar a documentação da Api com todas as rotas, explicação e corpo de requisição, inicie a aplicação
+e acesse o endpoint:
+
+/swagger-ui/index.html#/
