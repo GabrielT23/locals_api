@@ -34,6 +34,9 @@ Uma API Spring Boot para cadastrar e gerenciar locais.
     cd locals-api
     ```
 
+   ```bash
+    cd locals-api
+    ```
 2. **Configure o banco de dados**:
    
    Certifique-se de ter um banco de dados PostgreSQL em execução e crie um banco de dados chamado `locals`.
