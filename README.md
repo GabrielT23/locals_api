@@ -109,3 +109,7 @@ e acesse o endpoint:
 ```bash
 /swagger-ui/index.html#/
 ```
+
+### Video Explicativo do Projeto
+
+https://youtu.be/KElnO09kyow?si=dpjFpyB9KOQDwMLa
