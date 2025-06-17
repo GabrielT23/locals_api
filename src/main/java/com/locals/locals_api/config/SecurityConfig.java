@@ -18,22 +18,33 @@ public class SecurityConfig {
     @Autowired
     private SecurityFilter securityFilter;
 
-    private static final String[] SWAGGER_LIST = {
-        "/swagger-ui/**",
+    private static final String[] SWAGGER_WHITELIST = {
+        // OpenAPI JSON/YAML
+        "/v3/api-docs",
         "/v3/api-docs/**",
-        "/swagger-resources/**"
+        // Swagger UI and assets
+        "/swagger-ui.html",
+        "/swagger-ui/index.html",
+        "/swagger-ui/**",
+        "/swagger-resources/**",
+        "/webjars/**"
     };
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/users").permitAll() 
+                // suas rotas públicas
+                .requestMatchers(HttpMethod.POST, "/users").permitAll()
                 .requestMatchers(HttpMethod.GET, "/locals").permitAll()
-                .requestMatchers("/auth").permitAll() 
-                .requestMatchers(SWAGGER_LIST).permitAll() 
+                .requestMatchers("/auth").permitAll()
+                // Swagger sempre público
+                .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                // todo o resto autenticado
                 .anyRequest().authenticated()
             )
+            // adiciona seu filtro custom antes da autenticação básica
             .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
             ;
         return http.build();
@@ -44,6 +55,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 
 
 

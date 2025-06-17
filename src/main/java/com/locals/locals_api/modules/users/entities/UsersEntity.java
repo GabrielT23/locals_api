@@ -62,5 +62,9 @@ public class UsersEntity {
     // Adicionando o relacionamento com LocalsEntity
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LocalsEntity> locals;
+
+    public void setId(UUID fromString) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

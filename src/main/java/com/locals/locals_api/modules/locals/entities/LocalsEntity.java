@@ -77,6 +77,10 @@ public class LocalsEntity {
 
     @Transient
     private UUID userId;
+
+    public void setUser(UsersEntity userEntity) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
 

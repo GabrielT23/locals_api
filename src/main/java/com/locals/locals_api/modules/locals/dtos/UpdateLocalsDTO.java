@@ -23,5 +23,9 @@ public class UpdateLocalsDTO {
 
     @Schema(hidden = true)
     private UUID userId;
+
+    public void setUserId(UUID fromString) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

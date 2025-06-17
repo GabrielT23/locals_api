@@ -100,6 +100,7 @@ public class LocalsController {
     @Operation(summary="Exclusão de local", description="Essa rota permite ao usuário autenticado excluir o local")
     public void delete(@PathVariable UUID id, HttpServletRequest request) {
         var user_id = request.getAttribute("user_id");
+        System.out.println(user_id);
         this.deleteLocalsService.execute(id, UUID.fromString(user_id.toString()));
     }
 }
